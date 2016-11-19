@@ -1,0 +1,17 @@
+FROM golang:1.7
+
+RUN go get github.com/docker/docker/client \
+    github.com/docker/docker/api/types \
+    github.com/docker/go-connections/tlsconfig \
+    github.com/docker/go-connections/sockets \
+    github.com/docker/go-units \
+    gopkg.in/urfave/cli.v1 \
+    github.com/rancher/trash
+
+ENV USER root
+WORKDIR /go/
+
+RUN mkdir -p bin src/swarm-prune
+COPY . ./src/swarm-prune/
+
+CMD ["/go/src/swarm-prune/compile.sh"]
